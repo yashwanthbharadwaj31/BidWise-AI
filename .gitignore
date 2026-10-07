@@ -1,0 +1,30 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.class
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# IDE
+.vscode/
+
+# Local data
+data/raw/
+data/processed/
+
+# Tender and company documents
+documents/tenders/
+documents/company_knowledge/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
