@@ -31,7 +31,8 @@ def upload_document(file: UploadFile = File(...)):
             detail=message,
         )
     return {
-        "message": message,
-        "filename": Path(file.filename).name,
-        "status": "validated",
-    }
+    "message": message,
+    "filename": Path(file.filename).name,
+    "stored_filename": Path(temporary_path).name,
+    "status": "validated",
+}
