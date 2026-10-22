@@ -78,3 +78,20 @@ def test_parse_pdf_rejects_password_protected_pdf(tmp_path):
     document.close()
     with pytest.raises(PDFParsingError, match="Password-protected"):
         parse_pdf(file_path)
+def test_parse_pdf_preserves_blank_pages(tmp_path):
+    pdf_path = tmp_path / "tender_with_blank_page.pdf"
+    document = pymupdf.open()
+    first_page = document.new_page()
+    first_page.insert_text((72, 72), "Eligibility requirements")
+    document.new_page()  # Intentionally blank page
+    third_page = document.new_page()
+    third_page.insert_text((72, 72), "Submission deadline")
+    document.save(pdf_path)
+    document.close()
+    result = parse_pdf(pdf_path)
+    assert result["page_count"] == 3
+    assert result["pages"] == [
+        {"page_number": 1, "text": "Eligibility requirements"},
+        {"page_number": 2, "text": ""},
+        {"page_number": 3, "text": "Submission deadline"},
+    ]
